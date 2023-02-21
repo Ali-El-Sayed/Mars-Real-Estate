@@ -11,7 +11,16 @@ private const val BASE_URL = "https://android-kotlin-fun-mars-server.appspot.com
  * - Converter Factory (Scalar,Gson):
  * the converter tells Retrofit what to do with the data it gets back from the web service
  * */
-private val retrofit = Retrofit.Builder()
-    .addConverterFactory(ScalarsConverterFactory.create())
-    .baseUrl(BASE_URL)
-    .build()
+class MarsApiService() {
+    private val retrofit = Retrofit.Builder()
+        .addConverterFactory(ScalarsConverterFactory.create())
+        .baseUrl(BASE_URL)
+        .build()
+    private val retrofitService: IMarsApiService by lazy {
+        retrofit.create(IMarsApiService::class.java)
+    }
+
+    fun getInstance(): IMarsApiService {
+        return retrofitService
+    }
+}
