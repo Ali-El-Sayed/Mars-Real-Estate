@@ -5,5 +5,5 @@ import retrofit2.http.GET
 
 interface IMarsApiService {
     @GET("realestate")
-    fun getProperties(): Call<String>
+    suspend fun getProperties(): List<MarsProperty>
 }
