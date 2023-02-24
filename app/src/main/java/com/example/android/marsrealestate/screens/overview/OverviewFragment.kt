@@ -13,13 +13,13 @@ import com.example.android.marsrealestate.screens.overview.adapter.PhotoGridAdap
  * This fragment shows the the status of the Mars real-estate web services transaction.
  */
 class OverviewFragment : Fragment() {
+    private lateinit var binding: FragmentOverviewBinding
 
     /**
      * Lazily initialize our [OverviewViewModel].
      */
-    private val viewModel: OverviewViewModel by lazy {
-        ViewModelProvider(this).get(OverviewViewModel::class.java)
-    }
+    private lateinit var viewModel: OverviewViewModel
+
 
     /**
      * Inflates the layout with Data Binding, sets its lifecycle owner to the OverviewFragment
@@ -28,11 +28,15 @@ class OverviewFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-//        val binding = GridViewItemBinding.inflate(inflater)
-        val binding = FragmentOverviewBinding.inflate(inflater)
+        // val binding = GridViewItemBinding.inflate(inflater)
+        binding = FragmentOverviewBinding.inflate(inflater)
 
         // Allows Data Binding to Observe LiveData with the lifecycle of this Fragment
         binding.lifecycleOwner = this
+
+        val context = requireActivity().application
+        val factory = OverviewViewModelFactory(context, binding.root)
+        viewModel = ViewModelProvider(this, factory).get(OverviewViewModel::class.java)
 
         // Giving the binding access to the OverviewViewModel
         binding.viewModel = viewModel
